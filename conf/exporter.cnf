@@ -1,0 +1,15 @@
+[client]
+
+user = triangle
+#user = root
+
+password = triangle4world@MySQL 
+#password = 123qwe
+
+host = 172.20.2.191
+#host = 172.23.27.108
+
+port = 3306
+#port = 11010
+
+database = triangle_undb
