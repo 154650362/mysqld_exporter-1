@@ -30,24 +30,22 @@ NOTE: It is recommended to set a max connection limit for the user to avoid over
 
 ### Running
 
-Running using an environment variable:
+1. 以读取表中多实例方式采集数据
 
     export DATA_SOURCE_NAME='user:password@(hostname:3306)/'
-    ./mysqld_exporter <flags>
+    ./mysqld_exporter
 
-Running using ~/.my.cnf:
+2. 以读取配置文件中多实例方式采集数据
 
-    ./mysqld_exporter <flags>
+	vim /conf/exporter.cnf
 
-Example format for flags for version > 0.10.0:
+    ./mysqld_exporter
+	
+3. 以配置环境变量方式采集单个或多个实例数据，格式： host1,port1,username1,password1,instance_name1:host2,port2,username2,password2,instance_name2
 
-    --collect.auto_increment.columns
-    --no-collect.auto_increment.columns
-
-Example format for flags for version <= 0.10.0:
-
-    -collect.auto_increment.columns
-    -collect.auto_increment.columns=[true|false]
+   export SOURCE_DATA=172.20.4.26,3306,wx_alarm,wx@alarm,微信告警数据库:139.186.30.34,3306,wx_alarm,wx@alarm,微信告警数据库
+   
+   ./mysqld_exporter
 
 ### Collector Flags
 
@@ -103,30 +101,6 @@ exporter.log_slow_filter                   | Add a log_slow_filter to avoid slow
 web.listen-address                         | Address to listen on for web interface and telemetry.
 web.telemetry-path                         | Path under which to expose metrics.
 version                                    | Print the version information.
-
-### Setting the MySQL server's data source name
-
-The MySQL server's [data source name](http://en.wikipedia.org/wiki/Data_source_name)
-must be set via the `DATA_SOURCE_NAME` environment variable.
-The format of this variable is described at https://github.com/go-sql-driver/mysql#dsn-data-source-name.
-
-
-## Customizing Configuration for a SSL Connection
-if The MySQL server supports SSL, you may need to specify a CA truststore to verify the server's chain-of-trust. You may also need to specify a SSL keypair for the client side of the SSL connection. To configure the mysqld exporter to use a custom CA certificate, add the following to the mysql cnf file:
-
-```
-ssl-ca=/path/to/ca/file
-```
-
-To specify the client SSL keypair, add the following to the cnf.
-
-```
-ssl-key=/path/to/ssl/client/key
-ssl-cert=/path/to/ssl/client/cert
-```
-
-Customizing the SSL configuration is only supported in the mysql cnf file and is not supported if you set the mysql server's data source name in the environment variable DATA_SOURCE_NAME.
-
 
 ## Using Docker
 For example:
